@@ -55,8 +55,8 @@ const sideMenuContents: {
         :class="['mb-2', { 'menu-disabled': !!item.disabled }]"
         v-for="(item, index) in sideMenuContents"
       >
-        <a
-          :href="item.href"
+        <NuxtLink
+          :to="item.href"
           :class="[
             'flex',
             'p-2',
@@ -68,7 +68,7 @@ const sideMenuContents: {
         >
           <component v-if="item.svg" :is="item.svg" />
 
-          {{ item.label.en }}{{ item.disabled && ' (Comming Soon)' }}</a
+          {{ item.label.en }}{{ item.disabled && ' (Comming Soon)' }}</NuxtLink
         >
       </li>
     </ul>
