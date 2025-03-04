@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "strict": true,
     "baseUrl": ".",
+    "moduleResolution": "Bundler",
     "paths": {
       "~/*": ["./*"],
       "@/*": ["./*"]
-    }
+    },
+    "strict": true
   }
 }
