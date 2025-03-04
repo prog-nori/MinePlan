@@ -1,39 +1,41 @@
+# https://github.com/actions/deploy-pages#usage
 name: Deploy MinePlan to GitHub Pages
-
 on:
+  workflow_dispatch:
   push:
     branches:
-      - main # `main` ブランチにマージされたら実行
-
-permissions:
-  contents: write # `gh-pages` ブランチを更新するために必要
-
+      - main
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Repository を checkout
-        uses: actions/checkout@v4
-
-      - name: 🏗️ Node.js の setup
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: npm
-
-      - name: 📦 依存関係の install
-        run: npm ci
-
-      - name: ⚙️ 環境変数の設定
-        run: echo "BASE_URL=/REPO_NAME/" >> $GITHUB_ENV
-
-      - name: 🚀 Nuxt 3 を build
-        run: npm run generate
-
-      - name: 🚀 GitHub Pages に deploy
-        uses: peaceiris/actions-gh-pages@v4
+          node-version: '20'
+      # Pick your own package manager and build script
+      - run: npm install
+      - run: npx nuxt build --preset github_pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist # Nuxt 3 の静的ファイル出力先
-          publish_branch: gh-pages
+          path: ./.output/public
+  # Deployment job
+  deploy:
+    # Add a dependency to the build job
+    needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    # Deploy to the github_pages environment
+    environment:
+      name: github_pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy MinePlan to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
