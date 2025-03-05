@@ -18,14 +18,11 @@ jobs:
       # Pick your own package manager and build script
       - run: npm install
       - run: npx nuxi prepare
-      - name: Set NUXT_APP_BASE_URL
-        run: |
+      - run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "NUXT_APP_BASE_URL=/" >> $GITHUB_ENV
+            NUXT_APP_BASE_URL=/MinePlan/ npx nuxt build --preset github_pages
           else
-            echo "NUXT_APP_BASE_URL=/stg/" >> $GITHUB_ENV
-          fi
-      - run: npx nuxt build --preset github_pages
+            NUXT_APP_BASE_URL=/MinePlan/stg npx nuxt build --preset github_pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
