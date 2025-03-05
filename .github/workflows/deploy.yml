@@ -17,6 +17,13 @@ jobs:
       # Pick your own package manager and build script
       - run: npm install
       - run: npx nuxi prepare
+      - name: Set NUXT_APP_BASE_URL
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "NUXT_APP_BASE_URL=/" >> $GITHUB_ENV
+          else
+            echo "NUXT_APP_BASE_URL=/stg/" >> $GITHUB_ENV
+          fi
       - run: npx nuxt build --preset github_pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -32,7 +39,7 @@ jobs:
       id-token: write # to verify the deployment originates from an appropriate source
     # Deploy to the github_pages environment
     environment:
-      name: github_pages
+      name: ${{ github.ref == 'refs/heads/main' && 'github_pages' || 'staging_pages' }}
       url: ${{ steps.deployment.outputs.page_url }}
     # Specify runner + deployment step
     runs-on: ubuntu-latest
