@@ -23,6 +23,7 @@ jobs:
             NUXT_APP_BASE_URL=/MinePlan/
           else
             NUXT_APP_BASE_URL=/MinePlan/stg
+          fi
           npx nuxt build --preset github_pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
