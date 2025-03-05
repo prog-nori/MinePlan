@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const sideMenuContents: {
+export const menuContents: {
   href: string;
   label: {
     en: string;
@@ -53,7 +53,8 @@ const sideMenuContents: {
     <ul class="menu px-0 w-full">
       <li
         :class="['mb-2', { 'menu-disabled': !!item.disabled }]"
-        v-for="(item, index) in sideMenuContents"
+        v-for="(item, index) in menuContents"
+        :key="index"
       >
         <NuxtLink
           :to="item.href"
@@ -64,7 +65,6 @@ const sideMenuContents: {
             'hover:bg-gray-700',
             { 'bg-gray-600': $route.path === item.href },
           ]"
-          :key="index"
         >
           <component v-if="item.svg" :is="item.svg" />
 
