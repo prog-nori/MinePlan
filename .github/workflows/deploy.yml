@@ -39,41 +39,41 @@ jobs:
           path: ./app/.output/public
   # Deployment job
   deploy-prod:
-  if: github.ref_name == 'main'
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github_pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy MinePlan to GitHub Pages (prod)
-        id: deployment
-        uses: actions/deploy-pages@v4
+    if: github.ref_name == 'main'
+      needs: build
+      permissions:
+        pages: write
+        id-token: write
+      environment:
+        name: github_pages
+        url: ${{ steps.deployment.outputs.page_url }}
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy MinePlan to GitHub Pages (prod)
+          id: deployment
+          uses: actions/deploy-pages@v4
 
   deploy-stg:
-  if: github.ref_name == 'stg'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout staging repository
-        uses: actions/checkout@v4
-        with:
-          repository: prog-nori/MinePlan-stg
-          tokens: ${{secrets:STG_DEPLOY_TOKEN}}
-      - name: Deploy MinePlan to GitHub Pages (stg)
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # `MinePlan-stg` を `staging-repo/` にクローン
-          git clone https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git staging-repo
-          cd staging-repo
+    if: github.ref_name == 'stg'
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout staging repository
+          uses: actions/checkout@v4
+          with:
+            repository: prog-nori/MinePlan-stg
+            tokens: ${{secrets:STG_DEPLOY_TOKEN}}
+        - name: Deploy MinePlan to GitHub Pages (stg)
+          run: |
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            
+            # `MinePlan-stg` を `staging-repo/` にクローン
+            git clone https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git staging-repo
+            cd staging-repo
 
-          cp -r ../app/.output/public/* .
-          
-          git add .
-          git commit -m "Deploy staging version"
-          git push https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git main
+            cp -r ../app/.output/public/* .
+            
+            git add .
+            git commit -m "Deploy staging version"
+            git push https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git main
