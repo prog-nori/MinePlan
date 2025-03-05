@@ -16,7 +16,15 @@ jobs:
           node-version: '20'
       # Pick your own package manager and build script
       - run: npm install
-      - run: npx nuxi prepare
+      - name: 🗑 クリーンアップ
+        run: rm -rf .nuxt
+
+      - name: ⚙️ Nuxt の準備（.nuxt/tsconfig.json を生成）
+        run: |
+          npx nuxi prepare
+          ls -la .nuxt
+          cat .nuxt/tsconfig.json || echo "⚠️ .nuxt/tsconfig.json がありません！"
+      # - run: npx nuxi prepare
       - run: npx nuxt build
       - run: npx nuxt generate && npx gh-pages -d ./app/.output/public
       # - name: Upload artifact
