@@ -24,6 +24,7 @@ jobs:
           else
             NUXT_APP_BASE_URL=/MinePlan/stg
           fi
+          echo $NUXT_APP_BASE_URL
           npx nuxt build --preset github_pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
