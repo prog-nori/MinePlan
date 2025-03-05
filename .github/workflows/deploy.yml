@@ -17,8 +17,7 @@ jobs:
       # Pick your own package manager and build script
       - run: npm install
       - run: npx nuxi prepare
-      - run: npx nuxt build
-      # - run: npx nuxt generate && npx gh-pages -d ./app/.output/public
+      - run: npx nuxt build --preset github_pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
