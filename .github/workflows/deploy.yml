@@ -21,7 +21,7 @@ jobs:
 
       - name: ⚙️ Nuxt の準備（.nuxt/tsconfig.json を生成）
         run: |
-          npx nuxi prepare
+          npm run postinstall
           ls -la .nuxt
           cat .nuxt/tsconfig.json || echo "⚠️ .nuxt/tsconfig.json がありません！"
       # - run: npx nuxi prepare
