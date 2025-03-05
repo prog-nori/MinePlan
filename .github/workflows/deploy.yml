@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-      # - develop
+      - develop
 
 jobs:
   build:
@@ -19,39 +19,61 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      # Pick your own package manager and build script
 
       - run: npm install
 
       - run: npx nuxi prepare
-      - run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            NUXT_APP_BASE_URL=/MinePlan/
-          else
-            NUXT_APP_BASE_URL=/MinePlan/stg/
-          fi
-          echo $NUXT_APP_BASE_URL
-          npx nuxt build --preset github_pages
+      - run: npx nuxi build --preset github_pages
+      # - run: |
+      #     if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+      #       NUXT_APP_BASE_URL=/MinePlan/
+      #     else
+      #       NUXT_APP_BASE_URL=/MinePlan/stg/
+      #     fi
+      #     echo $NUXT_APP_BASE_URL
+      #     npx nuxt build --preset github_pages
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./app/.output/public
   # Deployment job
-  deploy:
-    # Add a dependency to the build job
+  deploy-prod:
+  if: github.ref_name == 'main'
     needs: build
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
-    # Deploy to the github_pages environment
+      pages: write
+      id-token: write
     environment:
-      name: ${{ github.ref_name == 'main' && 'github_pages' || 'staging' }}
+      name: github_pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy MinePlan to GitHub Pages
+      - name: Deploy MinePlan to GitHub Pages (prod)
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-stg:
+  if: github.ref_name == 'stg'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout staging repository
+        uses: actions/checkout@v4
+        with:
+          repository: prog-nori/MinePlan-stg
+          tokens: ${{secrets:STG_DEPLOY_TOKEN}}
+      - name: Deploy MinePlan to GitHub Pages (stg)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # `MinePlan-stg` を `staging-repo/` にクローン
+          git clone https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git staging-repo
+          cd staging-repo
+
+          cp -r ../app/.output/public/* .
+          
+          git add .
+          git commit -m "Deploy staging version"
+          git push https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git main
