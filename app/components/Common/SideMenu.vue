@@ -1,5 +1,5 @@
 <script setup lang="ts">
-export const menuContents: {
+const menuContents: {
   href: string;
   label: {
     en: string;
