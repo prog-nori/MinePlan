@@ -18,11 +18,11 @@ jobs:
       - run: npm install
       - run: npx nuxi prepare
       - run: npx nuxt build
-      - run: npx nuxt generate && npx gh-pages -d ./app/.output/public
-      # - name: Upload artifact
-      #   uses: actions/upload-pages-artifact@v3
-      #   with:
-      #     path: ./app/.output/public
+      # - run: npx nuxt generate && npx gh-pages -d ./app/.output/public
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./app/.output/public
   # Deployment job
   deploy:
     # Add a dependency to the build job
