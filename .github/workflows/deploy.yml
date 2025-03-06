@@ -24,14 +24,6 @@ jobs:
 
       - run: npx nuxi prepare
       - run: npx nuxi build --preset github_pages
-      # - run: |
-      #     if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-      #       NUXT_APP_BASE_URL=/MinePlan/
-      #     else
-      #       NUXT_APP_BASE_URL=/MinePlan/stg/
-      #     fi
-      #     echo $NUXT_APP_BASE_URL
-      #     npx nuxt build --preset github_pages
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -62,36 +54,30 @@ jobs:
       - name: Checkout staging repository
         uses: actions/checkout@v4
         with:
-          repository: prog-nori/MinePlan-stg
-          token: ${{secrets.STG_DEPLOY_TOKEN}}
-      - name: Clone MinePlan-stg
+          repository: <user>/MinePlan-stg
+          token: ${{ secrets.STG_DEPLOY_TOKEN }}
+
+      - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Ensure correct directory structure
+        run: |
           if [ ! -d "app" ]; then
-            mkdir app
+            mkdir -p app/.output/public
           fi
-
-          rm -rf app/*
-
-          git clone https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git app
-
-          cd app
 
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: public-dir
-          path: app
+          path: app/.output/public # ここを修正して正しい場所に配置
+
       - name: Deploy MinePlan to GitHub Pages (stg)
         run: |
-          ls -lR app
-          git remote set-url origin https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git
+          ls -lR app  # どんなファイルがあるか確認
+          git remote set-url origin https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/<user>/MinePlan-stg.git
           git add .
-          git commit -m "Deploy staging version"
+          git commit -m "Deploy staging version" || echo "No changes to commit"
           git push origin main
-    # steps:
-    #   - name: Deploy MinePlan to GitHub Pages (prod)
-    #     id: deployment
-    #     uses: actions/deploy-pages@v4
