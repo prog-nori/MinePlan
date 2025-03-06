@@ -80,6 +80,7 @@ jobs:
           name: public-dir
       - name: Deploy MinePlan to GitHub Pages (stg)
         run: |
+          git remote set-url origin https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git
           git add .
           git commit -m "Deploy staging version"
           git push origin main
