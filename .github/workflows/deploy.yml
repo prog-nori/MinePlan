@@ -54,7 +54,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   deploy-stg:
-    if: github.ref_name == 'stg'
+    if: github.ref_name == 'develop'
     needs: build
     runs-on: ubuntu-latest
     steps:
