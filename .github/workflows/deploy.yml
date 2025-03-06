@@ -73,8 +73,6 @@ jobs:
         with:
           name: public-dir
           path: app/.output/public # ここを修正して正しい場所に配置
-        run: |
-          ls -lR
 
       - name: Deploy MinePlan to GitHub Pages (stg)
         run: |
