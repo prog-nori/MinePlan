@@ -70,12 +70,11 @@ jobs:
 
           # `MinePlan-stg` を `staging-repo/` にクローン
           git clone https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git staging-repo
-          cd staging-repo
-          git checkout -b develop
 
           rm -rf staging-repo/*
-          cp -r ../app/.output/public/* .
+          # そもそもbuildされてる？
+          cp -r ./app/.output/public/* staging-repo
 
           git add .
           git commit -m "Deploy staging version"
-          git push origin develop
+          git push origin main
