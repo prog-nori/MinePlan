@@ -83,6 +83,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: public-dir
+          path: app
       - name: Deploy MinePlan to GitHub Pages (stg)
         run: |
           ls -l
