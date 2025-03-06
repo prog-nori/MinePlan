@@ -69,18 +69,28 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          # `MinePlan-stg` を `staging-repo/` にクローン
-          git clone https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git staging-repo
+          if [ ! -d "app" ]; then
+            mkdir app
+          fi
 
-          rm -rf staging-repo/*
-          cd staging-repo
+          rm -rf app/*
+
+          git clone https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git app
+
+          cd app
+
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: public-dir
       - name: Deploy MinePlan to GitHub Pages (stg)
         run: |
+          ls -l
           git remote set-url origin https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git
           git add .
           git commit -m "Deploy staging version"
           git push origin main
+    # steps:
+    #   - name: Deploy MinePlan to GitHub Pages (prod)
+    #     id: deployment
+    #     uses: actions/deploy-pages@v4
