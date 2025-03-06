@@ -86,7 +86,7 @@ jobs:
           path: app
       - name: Deploy MinePlan to GitHub Pages (stg)
         run: |
-          ls -l
+          ls -l app
           git remote set-url origin https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git
           git add .
           git commit -m "Deploy staging version"
