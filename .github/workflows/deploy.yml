@@ -62,7 +62,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: prog-nori/MinePlan-stg
-          tokens: ${{secrets:STG_DEPLOY_TOKEN}}
+          tokens: ${{secrets.STG_DEPLOY_TOKEN}}
       - name: Deploy MinePlan to GitHub Pages (stg)
         run: |
           git config --global user.name "github-actions[bot]"
