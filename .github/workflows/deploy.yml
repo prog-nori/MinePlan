@@ -36,6 +36,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          name: public-dir
           path: ./app/.output/public
   # Deployment job
   deploy-prod:
@@ -63,7 +64,7 @@ jobs:
         with:
           repository: prog-nori/MinePlan-stg
           tokens: ${{secrets.STG_DEPLOY_TOKEN}}
-      - name: Deploy MinePlan to GitHub Pages (stg)
+      - name: Clone MinePlan-stg
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -72,9 +73,13 @@ jobs:
           git clone https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git staging-repo
 
           rm -rf staging-repo/*
-          # そもそもbuildされてる？
-          cp -r ./app/.output/public/* staging-repo
-
+          cd staging-repo
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: public-dir
+      - name: Deploy MinePlan to GitHub Pages (stg)
+        run: |
           git add .
           git commit -m "Deploy staging version"
           git push origin main
