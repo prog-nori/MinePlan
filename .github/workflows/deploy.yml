@@ -54,7 +54,7 @@ jobs:
       - name: Checkout staging repository
         uses: actions/checkout@v4
         with:
-          repository: <user>/MinePlan-stg
+          repository: prog-nori/MinePlan-stg
           token: ${{ secrets.STG_DEPLOY_TOKEN }}
 
       - name: Configure Git
@@ -77,7 +77,7 @@ jobs:
       - name: Deploy MinePlan to GitHub Pages (stg)
         run: |
           ls -lR app  # どんなファイルがあるか確認
-          git remote set-url origin https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/<user>/MinePlan-stg.git
+          git remote set-url origin https://x-access-token:${{ secrets.STG_DEPLOY_TOKEN }}@github.com/prog-nori/MinePlan-stg.git
           git add .
           git commit -m "Deploy staging version" || echo "No changes to commit"
           git push origin main
