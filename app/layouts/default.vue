@@ -6,8 +6,9 @@ useHead({
 });
 </script>
 <template>
-  <div class="flex min-h-screen">
+  <div class="block lg:flex min-h-screen">
     <CommonSideMenu />
+    <CommonHeader />
 
     <!-- メインコンテンツ -->
     <main class="flex-1 p-8">

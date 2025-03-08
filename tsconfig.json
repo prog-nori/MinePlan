@@ -1,11 +1,10 @@
 {
   "extends": "./app/.nuxt/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./app",
     "moduleResolution": "Bundler",
     "paths": {
-      "~/*": ["./*"],
-      "@/*": ["./*"]
+      "~/*": ["./*"]
     },
     "strict": true
   }

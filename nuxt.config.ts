@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || '/MinePlan/',
+    baseURL: process.env.base_URL || '/MinePlan/',
   },
   nitro: {
     prerender: {
@@ -19,13 +19,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   imports: {
     autoImport: true,
-    dirs: [
-      'app/components/**',
-      'app/components/Common',
-      'app/composables/**',
-      'app/layouts/**',
-      'app/pages/**',
-    ],
+    dirs: ['app/composables', 'app/components'],
   },
   modules: ['@nuxt/eslint'],
   css: ['~/assets/css/app.css'],
