@@ -1,18 +1,32 @@
 <script setup lang="ts">
-// import { useMenu } from '~/app/composables/useMenu';
+import { useMenu } from '~/composables/useMenu';
 
 const menuContents = useMenu();
+const route = useRoute();
+
+watch(
+  () => route.path,
+  () => {
+    const drawerCheckbox = document.getElementById(
+      'drawer'
+    ) as HTMLInputElement;
+    if (drawerCheckbox) {
+      drawerCheckbox.checked = false;
+    }
+  }
+);
 </script>
 
 <template>
-  <div class="flex lg:hidden navbar bg-base-100 shadow-sm">
+  <div class="flex lg:hidden navbar bg-base-100 shadow-sm px-4">
     <div class="navbar-start">
-      <a class="btn btn-ghost text-xl">daisyUI</a>
+      <NuxtLink to="/" class="btn btn-ghost pl-0 text-xl">MinePlan</NuxtLink>
     </div>
-    <div class="navbar-end">
-      <div class="dropdown static">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-          <svg
+    <div class="navbar-end drawer">
+      <input id="drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <label for="drawer" class="drawer-button"
+          ><svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
             fill="none"
@@ -26,21 +40,32 @@ const menuContents = useMenu();
               d="M4 6h16M4 12h16M4 18h7"
             />
           </svg>
-        </div>
-        <ul
-          tabindex="0"
-          class="menu menu-sm dropdown-content left-0 bg-base-100 rounded-box z-1 mt-3 w-screen p-2 shadow"
-        >
+        </label>
+      </div>
+      <div class="drawer-side z-10">
+        <label
+          for="drawer"
+          aria-label="close sidebar"
+          class="drawer-overlay"
+        ></label>
+        <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+          <div class="navbar-start">
+            <NuxtLink to="/" class="btn btn-ghost text-xl">MinePlan</NuxtLink>
+          </div>
           <li
-            :class="[{ 'menu-disabled': !!item.disabled }]"
             v-for="(item, index) in menuContents"
             :key="index"
+            :class="['mb-2', { 'menu-disabled': !!item.disabled }]"
           >
             <NuxtLink
               :to="item.href"
-              :class="['flex', { 'bg-gray-600': $route.path === item.href }]"
+              :class="[
+                'flex',
+                'py-2',
+                { 'bg-gray-600': $route.path === item.href },
+              ]"
             >
-              <component v-if="item.svg" :is="item.svg" />
+              <component :is="item.svg" v-if="item.svg" />
 
               {{ item.label.en
               }}{{ item.disabled && ' (Comming Soon)' }}</NuxtLink

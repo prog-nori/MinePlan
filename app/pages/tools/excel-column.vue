@@ -29,6 +29,7 @@ const copyText = async () => {
       showSuccessAlert();
     } catch (err) {
       // 失敗
+      console.log(err);
     }
   }
 };
@@ -75,10 +76,10 @@ function excelColumnToNumber(column: string | undefined): number | undefined {
   <p class="my-4">Excel列 → 数字変換</p>
   <div class="grid grid-cols-2 gap-4">
     <input
+      v-model="text"
       type="text"
       placeholder="i.g.) AA"
       class="input w-full"
-      v-model="text"
     />
     <div :class="[{ tooltip: typeof result !== 'undefined' }]" data-tip="Copy">
       <input

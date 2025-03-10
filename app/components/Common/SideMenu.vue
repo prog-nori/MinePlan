@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { useMenu } from '~/app/composables/useMenu';
+import { useMenu } from '~/composables/useMenu';
 
 const menuContents = useMenu();
 </script>
@@ -9,9 +9,9 @@ const menuContents = useMenu();
     <h2 class="text-xl font-bold mb-4"><a href="/">MinePlan</a></h2>
     <ul class="menu px-0 w-full">
       <li
-        :class="['mb-2', { 'menu-disabled': !!item.disabled }]"
         v-for="(item, index) in menuContents"
         :key="index"
+        :class="['mb-2', { 'menu-disabled': !!item.disabled }]"
       >
         <NuxtLink
           :to="item.href"
@@ -23,7 +23,7 @@ const menuContents = useMenu();
             { 'bg-gray-600': $route.path === item.href },
           ]"
         >
-          <component v-if="item.svg" :is="item.svg" />
+          <component :is="item.svg" v-if="item.svg" />
 
           {{ item.label.en }}{{ item.disabled && ' (Comming Soon)' }}</NuxtLink
         >
