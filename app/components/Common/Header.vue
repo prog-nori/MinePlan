@@ -18,7 +18,9 @@ watch(
 </script>
 
 <template>
-  <div class="flex lg:hidden navbar bg-base-100 shadow-sm px-4">
+  <div
+    class="sticky top-0 flex lg:hidden navbar bg-base-100/30 backdrop-blur-md shadow-sm px-4 z-10"
+  >
     <div class="navbar-start">
       <NuxtLink to="/" class="btn btn-ghost pl-0 text-xl">MinePlan</NuxtLink>
     </div>
@@ -65,7 +67,7 @@ watch(
                 { 'bg-gray-600': $route.path === item.href },
               ]"
             >
-              <component :is="item.svg" v-if="item.svg" />
+              <component :is="item.svg" v-if="item.svg" color="white" />
 
               {{ item.label.en
               }}{{ item.disabled && ' (Comming Soon)' }}</NuxtLink

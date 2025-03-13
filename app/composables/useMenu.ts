@@ -20,7 +20,6 @@ export const useMenu = (): {
       href: '/tools/angle-line',
       label: { en: 'Line by Angle', ja: '角度から斜線作成' },
       svg: LineByAngle,
-      disabled: true,
     },
     {
       href: '/tools/straight-line',
@@ -34,6 +33,12 @@ export const useMenu = (): {
       svg: SCurve,
       disabled: true,
     },
+    // {
+    //   href: '/tools/draw-circle',
+    //   label: { en: 'Draw Circle', ja: '円の描画' },
+    //   // svg: ,
+    //   disabled: true,
+    // },
     {
       href: '/tools/text-to-dots',
       label: { en: 'Text to Dots', ja: '文字をドットで表現' },

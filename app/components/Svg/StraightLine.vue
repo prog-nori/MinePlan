@@ -8,11 +8,11 @@
   >
     <path
       d="M3.5 3.5V17C3.53939 19.7933 4.31245 20.5444 7 20.5H20.5"
-      stroke="white"
+      stroke="currentColor"
       stroke-linecap="round"
     />
-    <path d="M8 16L17 7" stroke="white" />
-    <circle cx="18" cy="6" r="1.5" stroke="white" />
-    <circle cx="7" cy="17" r="1.5" stroke="white" />
+    <path d="M8 16L17 7" stroke="currentColor" />
+    <circle cx="18" cy="6" r="1.5" stroke="currentColor" />
+    <circle cx="7" cy="17" r="1.5" stroke="currentColor" />
   </svg>
 </template>

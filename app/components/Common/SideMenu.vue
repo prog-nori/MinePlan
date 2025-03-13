@@ -5,7 +5,7 @@ const menuContents = useMenu();
 </script>
 
 <template>
-  <aside class="hidden lg:block w-64 bg-gray-800 text-white p-4">
+  <aside class="sticky top-0 hidden lg:block w-64 text-white p-4">
     <h2 class="text-xl font-bold mb-4"><a href="/">MinePlan</a></h2>
     <ul class="menu px-0 w-full">
       <li
@@ -23,7 +23,11 @@ const menuContents = useMenu();
             { 'bg-gray-600': $route.path === item.href },
           ]"
         >
-          <component :is="item.svg" v-if="item.svg" />
+          <component
+            :is="item.svg"
+            v-if="item.svg"
+            :color="item.disabled ? 'oklch(97.807% 0.029 256.847)' : 'white'"
+          />
 
           {{ item.label.en }}{{ item.disabled && ' (Comming Soon)' }}</NuxtLink
         >

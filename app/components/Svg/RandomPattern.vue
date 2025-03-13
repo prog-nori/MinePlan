@@ -6,15 +6,22 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="white" />
+    <rect
+      x="3.5"
+      y="3.5"
+      width="17"
+      height="17"
+      rx="3.5"
+      stroke="currentColor"
+    />
     <rect
       x="13.5"
       y="7.5"
       width="5"
       height="5"
       rx="1.5"
-      fill="white"
-      stroke="white"
+      fill="currentColor"
+      stroke="currentColor"
     />
     <rect
       x="7.5"
@@ -22,9 +29,9 @@
       width="5"
       height="5"
       rx="1.5"
-      stroke="white"
+      stroke="currentColor"
       stroke-dasharray="2 2"
     />
-    <rect x="5.5" y="5.5" width="5" height="5" rx="1.5" stroke="white" />
+    <rect x="5.5" y="5.5" width="5" height="5" rx="1.5" stroke="currentColor" />
   </svg>
 </template>
